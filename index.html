@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Countdown</title>
+  <link rel="stylesheet" href="D:\ankit\OneDrive\Desktop\AI Gen\countdown\styles.css.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <button type="button" class="btn-history" id="historyBtn" aria-expanded="false" aria-controls="historyPanel">
+    <span class="btn-history-icon" aria-hidden="true">📋</span>
+    History
+    <span class="history-badge" id="historyBadge" hidden>0</span>
+  </button>
+
+  <div class="history-backdrop" id="historyBackdrop" hidden></div>
+  <aside class="history-panel" id="historyPanel" hidden aria-label="Completed exams">
+    <div class="history-panel-header">
+      <h2>Exam history</h2>
+      <button type="button" class="btn-icon close-history" id="closeHistoryBtn" aria-label="Close history">×</button>
+    </div>
+    <p class="history-panel-desc">Completed subjects — exams that have already started.</p>
+    <div class="history-list" id="historyList" role="list"></div>
+    <p class="history-empty" id="historyEmpty" hidden>No completed exams yet.</p>
+  </aside>
+
+  <div class="app">
+    <header class="header">
+      <div class="logo" aria-hidden="true">⏱</div>
+      <h1>Exam Countdown</h1>
+      <p class="tagline">Track all your subjects in one place.</p>
+    </header>
+
+    <main class="main">
+      <section class="card setup-card">
+        <h2>Add an exam</h2>
+        <form id="countdownForm" class="form" novalidate>
+          <div class="field">
+            <label for="examName">Subject / exam name</label>
+            <input
+              type="text"
+              id="examName"
+              name="examName"
+              placeholder="e.g. Mathematics, Physics"
+              autocomplete="off"
+              required
+            >
+          </div>
+          <div class="field field-datetime">
+            <label for="examDate">Exam date &amp; time</label>
+            <input
+              type="datetime-local"
+              id="examDate"
+              name="examDate"
+              class="input-datetime"
+              required
+            >
+          </div>
+          <button type="submit" class="btn btn-primary" id="addExamBtn">
+            Add to countdown
+          </button>
+        </form>
+        <p class="error" id="formError" role="alert" hidden></p>
+      </section>
+
+      <section class="exams-section" id="examsSection" hidden>
+        <div class="exams-header">
+          <h2>Upcoming exams</h2>
+          <span class="exam-count" id="examCount"></span>
+        </div>
+        <div class="exam-list" id="examList" role="list"></div>
+      </section>
+
+      <p class="empty-state" id="emptyState">
+        No upcoming exams. Add a subject above to start counting down.
+      </p>
+    </main>
+
+    <footer class="footer">
+      <p>You’ve got this — good luck on all your exams!</p>
+    </footer>
+  </div>
+
+  <div class="alarm-overlay" id="alarmOverlay" hidden>
+    <div
+      class="alarm-modal card"
+      role="alertdialog"
+      aria-labelledby="alarmTitle"
+      aria-describedby="alarmMessage"
+      aria-modal="true"
+    >
+      <div class="alarm-icon" aria-hidden="true">🔔</div>
+      <h2 id="alarmTitle">Exam time!</h2>
+      <p class="alarm-message" id="alarmMessage"></p>
+      <p class="alarm-hint">The alarm will keep playing until you tap OK.</p>
+      <button type="button" class="btn btn-primary btn-alarm-ok" id="alarmOkBtn">
+        OK
+      </button>
+    </div>
+  </div>
+
+  <template id="historyCardTemplate">
+    <article class="card history-card" role="listitem">
+      <div class="exam-card-top">
+        <div class="exam-card-info">
+          <h3 class="exam-title"></h3>
+          <p class="exam-datetime"></p>
+        </div>
+        <button type="button" class="btn-icon remove-exam" aria-label="Remove from history" title="Remove">×</button>
+      </div>
+      <div class="good-luck-banner history-banner">
+        <span class="good-luck-icon" aria-hidden="true">🎓</span>
+        <p class="good-luck-text">Good luck!</p>
+        <p class="good-luck-sub">Exam completed</p>
+      </div>
+    </article>
+  </template>
+
+  <template id="examCardTemplate">
+    <article class="card exam-card" role="listitem">
+      <div class="exam-card-top">
+        <div class="exam-card-info">
+          <h3 class="exam-title"></h3>
+          <p class="exam-datetime"></p>
+        </div>
+        <button type="button" class="btn-icon remove-exam" aria-label="Remove exam" title="Remove exam">×</button>
+      </div>
+
+      <div class="timer-wrap">
+        <div class="timer" aria-live="polite" aria-atomic="true">
+          <div class="timer-unit">
+            <span class="timer-value days">00</span>
+            <span class="timer-label">Days</span>
+          </div>
+          <span class="timer-separator">:</span>
+          <div class="timer-unit">
+            <span class="timer-value hours">00</span>
+            <span class="timer-label">Hours</span>
+          </div>
+          <span class="timer-separator">:</span>
+          <div class="timer-unit">
+            <span class="timer-value minutes">00</span>
+            <span class="timer-label">Minutes</span>
+          </div>
+        </div>
+        <p class="status">Time remaining</p>
+      </div>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
